@@ -1,0 +1,266 @@
+{% extends 'base.html' %}
+
+{% block title %}Know Your Rights - Sakhi{% endblock %}
+
+{% block styles %}
+<!-- We reuse the dashboard CSS for the main layout aesthetic -->
+<link rel="stylesheet" href="{{ url_for('static', filename='css/dashboard.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/rights.css') }}">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<style>
+    /* Specific overrides for the rights page inner content */
+    .rights-tabs-container {
+        padding: 20px;
+    }
+
+    .rights-tab-nav {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        margin-bottom: 20px;
+    }
+
+    .rights-tab-btn {
+        padding: 10px 20px;
+        background: transparent;
+        border: 1px solid var(--sidebar-olive-dark);
+        border-radius: 20px;
+        color: var(--text-dark);
+        cursor: pointer;
+        font-weight: 500;
+        transition: all 0.2s;
+    }
+
+    .rights-tab-btn.active,
+    .rights-tab-btn:hover {
+        background: var(--sidebar-olive-dark);
+        color: white;
+    }
+
+    .rights-tab-content {
+        display: none;
+        animation: fadeIn 0.4s ease;
+    }
+
+    .rights-tab-content.active {
+        display: block;
+    }
+
+    .rights-card-item {
+        background: #fdf2e8;
+        padding: 20px;
+        border-radius: 15px;
+        margin-bottom: 15px;
+        border-left: 4px solid var(--sidebar-olive-dark);
+    }
+
+    .rights-card-item h3 {
+        margin-top: 0;
+        margin-bottom: 10px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        font-family: 'DM Sans', sans-serif;
+        font-size: 18px;
+    }
+
+    .rights-card-item p {
+        margin: 0;
+        font-size: 14px;
+        color: var(--text-dark);
+        line-height: 1.5;
+    }
+
+    @keyframes fadeIn {
+        from {
+            opacity: 0;
+            transform: translateY(5px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="dashboard-layout">
+
+    <!-- MAIN LEFT CARD -->
+    <div class="main-card">
+
+        <!-- Navbar inner replacement -->
+        <nav class="nav-header">
+            <a href="{{ url_for('dashboard') }}" class="logo">
+                sakhi
+            </a>
+            <div class="nav-links">
+                <a href="{{ url_for('rights') }}" style="color: var(--text-dark); font-weight: 700;">My Rights</a>
+                <a href="{{ url_for('calm') }}">Healing Tools</a>
+                <a href="{{ url_for('progress') }}">My Progress</a>
+                <a href="{{ url_for('parent_dashboard') }}">Parents</a>
+            </div>
+            <div class="nav-actions">
+                <a style="font-size: 18px;" href="#" class="btn-custom btn-primary-custom"
+                    onclick="document.getElementById('quick-exit-btn').click()">Quick Exit <i
+                        class="fa-solid fa-person-running"></i></a>
+            </div>
+        </nav>
+
+        <!-- Hero Body -->
+        <div class="hero-content">
+
+            <!-- Text Sidebar -->
+            <div class="hero-text-section">
+                <h1 class="hero-title">
+                    Know your<br>
+                    <i>rights</i> and<br>
+                    take back<br>
+                    <span class="semi-bold">control</span>
+                </h1>
+                <p class="hero-subtitle">
+                    Empower yourself with knowledge. The law is on your side, and you don't have to face this alone.
+                </p>
+
+                <div class="rights-tabs-container">
+                    <div class="rights-tab-nav">
+                        <button class="rights-tab-btn active" data-tab="survivor">Survivor Rights</button>
+                        <button class="rights-tab-btn" data-tab="reporting">Reporting</button>
+                        <button class="rights-tab-btn" data-tab="confidentiality">Privacy</button>
+                    </div>
+
+                    <!-- Tab 1 -->
+                    <div id="survivor" class="rights-tab-content active">
+                        <div class="rights-card-item">
+                            <h3><i class="fa-solid fa-scale-balanced"></i> Right to Free Legal Aid</h3>
+                            <p>You are entitled to a lawyer free of cost from the Legal Services Authority. Ask the
+                                police or court for 'Legal Aid'.</p>
+                        </div>
+                        <div class="rights-card-item">
+                            <h3><i class="fa-solid fa-shield-halved"></i> Protection from Harassment</h3>
+                            <p>The police must register a 'Zero FIR' regardless of where the incident happened.</p>
+                        </div>
+                    </div>
+
+                    <!-- Tab 2 -->
+                    <div id="reporting" class="rights-tab-content">
+                        <div class="rights-card-item">
+                            <h3><i class="fa-solid fa-laptop-file"></i> Online Reporting</h3>
+                            <p>Use the National Cyber Crime Portal or She-Box for work-related complaints anonymously.
+                            </p>
+                        </div>
+                        <div class="rights-card-item">
+                            <h3><i class="fa-solid fa-building-shield"></i> One-Stop Centres</h3>
+                            <p>Provide medical, legal, and police help under one roof, specifically for women.</p>
+                        </div>
+                    </div>
+
+                    <!-- Tab 3 -->
+                    <div id="confidentiality" class="rights-tab-content">
+                        <div class="rights-card-item">
+                            <h3><i class="fa-solid fa-user-secret"></i> Identity Protection</h3>
+                            <p>Under Indian law, your identity is protected. Police and media cannot reveal your name.
+                            </p>
+                        </div>
+                        <div class="rights-card-item">
+                            <h3><i class="fa-solid fa-file-medical"></i> Medical Privacy</h3>
+                            <p>Doctors and hospital staff must keep your records private and strictly confidential.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Images Collage Sidebar -->
+            <div class="hero-images-section">
+                <div class="blob-container">
+
+                    <!-- Blobs -->
+                    <div class="blob-green">
+                        <img src="{{ url_for('static', filename='sakhi_ui/rights_document_1772215824094.png') }}"
+                            alt="Legal Rights Book" class="img-journal">
+                    </div>
+
+                    <div class="blob-beige">
+                        <img src="{{ url_for('static', filename='sakhi_ui/sakhi_phone_1772214459318.png') }}"
+                            alt="App UI" class="img-phone">
+                    </div>
+
+                    <div class="blob-white">
+                        <img src="{{ url_for('static', filename='sakhi_ui/rights_advocate_1772215844479.png') }}"
+                            alt="Legal Advocate" class="img-woman">
+                    </div>
+
+                    <!-- Badges -->
+                    <div class="badge badge-delivery">
+                        <div class="badge-icon"><i class="fa-solid fa-gavel"></i></div>
+                        legal support
+                    </div>
+                    <div class="badge badge-therapeutic">
+                        <div class="badge-icon"><i class="fa-solid fa-user-shield"></i></div>
+                        confidentiality
+                    </div>
+                    <div class="badge badge-coaching">
+                        <div class="badge-icon"><i class="fa-solid fa-file-contract"></i></div>
+                        zero FIR
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- RIGHT SIDEBAR COL -->
+    <div class="sidebar-col">
+
+        <!-- Action Widget -->
+        <div class="stress-widget">
+            <div class="widget-title">Need Immediate Help?</div>
+
+            <i class="fa-solid fa-phone-volume" style="font-size: 48px; color: #f1d7bf; margin: 20px 0;"></i>
+
+            <div class="potential-card">
+                <div class="potential-title">Women Helpline</div>
+                <div class="potential-val" style="font-size: 36px;">1091</div>
+                <div class="potential-note">Available 24/7 across India. Completely confidential.</div>
+            </div>
+
+            <a href="tel:1091" class="btn-custom btn-primary-custom"
+                style="width: 100%; margin-top: 15px; color: white; background: #c54a5a;">Call Now</a>
+        </div>
+
+        <!-- Filler White Card -->
+        <div class="bottom-info-card">
+            <div class="logo" style="margin-bottom: auto; color: var(--text-dark);">
+                sakhi
+            </div>
+            <h2>You are<br>not alone.<br>We believe you.</h2>
+        </div>
+
+    </div>
+
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    // Simple tab switching logic for rights page
+    const tabs = document.querySelectorAll('.rights-tab-btn');
+    const contents = document.querySelectorAll('.rights-tab-content');
+
+    tabs.forEach(tab => {
+        tab.addEventListener('click', () => {
+            // Remove active
+            tabs.forEach(t => t.classList.remove('active'));
+            contents.forEach(c => c.classList.remove('active'));
+
+            // Set active
+            tab.classList.add('active');
+            document.getElementById(tab.dataset.tab).classList.add('active');
+        });
+    });
+</script>
+{% endblock %}

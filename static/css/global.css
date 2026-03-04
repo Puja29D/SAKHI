@@ -1,0 +1,351 @@
+:root {
+    /* ── New Warm Feminine Wellness Palette ── */
+    --primary-rose: #C2677A;
+    /* dusty rose / dark pink */
+    --secondary-sage: #7B3F5E;
+    /* deep mauve / plum */
+    --accent-blush: #F4A7B9;
+    /* soft blush pink */
+    --neutral-cream: #FDF6F0;
+    /* warm cream / off-white */
+    --text-plum: #2D1B2E;
+    /* deep plum-black */
+    --bg-blush: #FDF6F0;
+    /* background */
+    --card-bg: rgba(244, 167, 185, 0.10);
+    --card-shadow: 0 4px 20px rgba(194, 103, 122, 0.18);
+    --white: #FFFFFF;
+    --error-red: #D32F2F;
+
+    /* Typography */
+    --font-heading: 'Playfair Display', serif;
+    --font-body: 'DM Sans', sans-serif;
+    --font-accent: 'Lato', sans-serif;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background-color: var(--bg-blush);
+    color: var(--text-plum);
+    font-family: var(--font-body);
+    line-height: 1.6;
+    overflow-x: hidden;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-family: var(--font-heading);
+    color: var(--text-plum);
+    margin-bottom: 1rem;
+}
+
+/* Global text contrast fixes – WCAG AA */
+p {
+    margin-bottom: 1rem;
+    color: #3D2840;
+    /* was inherited var(--text-plum) which can be too light on cream */
+}
+
+/* Ensure body copy on light backgrounds is dark enough */
+.card p,
+.feature-card p,
+.guidance-card p,
+.grounding-section p,
+.chat-shortcut p,
+.activity-summary p {
+    color: #4A3550;
+}
+
+/* Placeholder text */
+::placeholder {
+    color: #7A6080;
+    opacity: 1;
+}
+
+a {
+    color: var(--text-plum);
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+a:hover {
+    color: var(--accent-blush);
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+/* ── Card Styles ── */
+.card {
+    background: var(--white);
+    border-radius: 20px;
+    padding: 24px;
+    box-shadow: var(--card-shadow);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card:hover {
+    transform: translateY(-5px) scale(1.01);
+    box-shadow: 0 12px 36px rgba(194, 103, 122, 0.28);
+}
+
+/* ── Button Styles ── */
+.btn {
+    display: inline-block;
+    padding: 12px 24px;
+    border-radius: 50px;
+    font-family: var(--font-accent);
+    font-weight: bold;
+    cursor: pointer;
+    border: none;
+    transition: all 0.3s ease;
+    text-align: center;
+}
+
+.btn-primary {
+    background: linear-gradient(135deg, #C2677A, #7B3F5E);
+    color: #fff;
+}
+
+.btn-primary:hover {
+    background: linear-gradient(135deg, #d4788b, #8f4d6e);
+    color: #fff;
+    box-shadow: 0 4px 16px rgba(194, 103, 122, 0.4);
+}
+
+.btn-secondary {
+    background-color: var(--accent-blush);
+    color: var(--text-plum);
+}
+
+.btn-secondary:hover {
+    background-color: #f0889e;
+    color: #fff;
+}
+
+.btn-accent {
+    background-color: var(--accent-blush);
+    color: var(--text-plum);
+}
+
+.btn-accent:hover {
+    background-color: #f0889e;
+    color: #fff;
+}
+
+.btn-danger {
+    background-color: var(--error-red);
+    color: var(--white);
+}
+
+/* ── Quick Exit Button ── */
+.quick-exit-btn {
+    background-color: #d32f2f;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 50px;
+    font-weight: bold;
+    text-transform: uppercase;
+    font-size: 0.9rem;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    z-index: 1000;
+}
+
+.quick-exit-btn:hover {
+    background-color: #b71c1c;
+    color: white;
+    transform: scale(1.05);
+}
+
+/* ── Header / Navbar – Fixed, Deep Mauve ── */
+header {
+    background-color: #7B3F5E;
+    border-bottom: none;
+    box-shadow: 0 2px 20px rgba(123, 63, 94, 0.35);
+    padding: 18px 0;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000;
+}
+
+nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* ── Logo – Dark Magenta, Text Only ── */
+.logo {
+    display: flex;
+    align-items: center;
+    font-family: var(--font-body);
+    font-size: 1.6rem;
+    font-weight: 800;
+    letter-spacing: 0.12em;
+    color: #C2185B;
+    text-shadow: 0 2px 10px rgba(194, 24, 91, 0.25);
+    text-transform: uppercase;
+}
+
+.logo:hover {
+    color: #e91e8c;
+}
+
+.nav-links {
+    display: flex;
+    gap: 30px;
+}
+
+.nav-links a {
+    font-family: var(--font-accent);
+    font-weight: 600;
+    color: rgba(255, 255, 255, 0.9);
+    position: relative;
+}
+
+.nav-links a:hover {
+    color: var(--accent-blush);
+}
+
+.nav-links a::after {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 2px;
+    bottom: -5px;
+    left: 0;
+    background-color: var(--accent-blush);
+    transition: width 0.3s ease;
+}
+
+.nav-links a:hover::after {
+    width: 100%;
+}
+
+.mobile-menu-btn {
+    display: none;
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    color: white;
+    cursor: pointer;
+}
+
+/* ── Footer ── */
+footer {
+    background-color: rgba(123, 63, 94, 0.10);
+    padding: 40px 0;
+    margin-top: 60px;
+    color: var(--text-plum);
+}
+
+.footer-content {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 20px;
+    margin-bottom: 30px;
+}
+
+.footer-quote {
+    flex: 1;
+    min-width: 300px;
+}
+
+.footer-quote h3 {
+    font-style: italic;
+    font-size: 1.5rem;
+    color: var(--primary-rose);
+}
+
+.footer-links {
+    display: flex;
+    gap: 20px;
+}
+
+.helpline-box {
+    background: var(--white);
+    padding: 15px;
+    border-radius: 8px;
+    border-left: 4px solid var(--primary-rose);
+}
+
+/* Utilities */
+.text-center {
+    text-align: center;
+}
+
+.mt-20 {
+    margin-top: 20px;
+}
+
+.mb-20 {
+    margin-bottom: 20px;
+}
+
+.flex {
+    display: flex;
+}
+
+.items-center {
+    align-items: center;
+}
+
+.justify-between {
+    justify-content: space-between;
+}
+
+.grid {
+    display: grid;
+}
+
+.gap-20 {
+    gap: 20px;
+}
+
+/* ── Responsive ── */
+@media (max-width: 768px) {
+    .nav-links {
+        display: none;
+        flex-direction: column;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        width: 100%;
+        background: #7B3F5E;
+        padding: 20px;
+        box-shadow: 0 8px 20px rgba(123, 63, 94, 0.3);
+    }
+
+    .nav-links.active {
+        display: flex;
+    }
+
+    .mobile-menu-btn {
+        display: block;
+    }
+
+    .footer-content {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .footer-links {
+        justify-content: center;
+        flex-wrap: wrap;
+    }
+}

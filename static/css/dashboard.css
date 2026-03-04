@@ -1,0 +1,494 @@
+/* static/css/dashboard.css */
+
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&display=swap');
+
+/* We are overriding the base.html layout for the dashboard to achieve the full-screen visual aesthetic */
+body {
+    font-family: 'DM Sans', sans-serif !important;
+    background: linear-gradient(135deg, #dcedc7 0%, #C4D7B2 100%) !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    min-height: 100vh !important;
+}
+
+/* Hide default global header/footer so we can recreate it tightly in the white card like the reference */
+header,
+footer {
+    display: none !important;
+}
+
+main.container {
+    padding: 2vw !important;
+    max-width: 100% !important;
+    min-height: 100vh !important;
+}
+
+:root {
+    --white: #ffffff;
+    --text-dark: #373e34;
+    --text-light: #6a7465;
+    --primary-olive: #5d6854;
+    --primary-olive-hover: #4e5746;
+    --sidebar-olive: #738466;
+    --sidebar-olive-dark: #5c6c51;
+    --trustpilot-bg: #fdf2e8;
+    --blob-green: #90a582;
+    --blob-beige: #e5cdb2;
+}
+
+h1,
+h2,
+h3,
+h4,
+.serif-text {
+    font-family: 'Playfair Display', serif;
+}
+
+/* Layout */
+.dashboard-layout {
+    display: flex !important;
+    gap: 24px;
+    max-width: 1600px;
+    margin: 0 auto;
+}
+
+/* Main Left Card */
+.main-card {
+    background-color: var(--white);
+    border-radius: 40px;
+    padding: 40px 50px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    min-height: 85vh;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.05);
+}
+
+/* Navigation */
+.nav-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 60px;
+}
+
+.logo {
+    font-weight: 700;
+    font-size: 24px;
+    letter-spacing: -0.5px;
+    color: var(--text-dark);
+    text-decoration: none;
+}
+
+.logo span {
+    font-weight: 400;
+    font-size: 14px;
+    vertical-align: top;
+    margin-right: 4px;
+}
+
+.nav-links {
+    display: flex;
+    gap: 32px;
+}
+
+.nav-links a {
+    text-decoration: none;
+    color: var(--text-light);
+    font-weight: 500;
+    font-size: 15px;
+    transition: color 0.2s;
+}
+
+.nav-links a:hover {
+    color: var(--text-dark);
+}
+
+.nav-actions {
+    display: flex;
+    gap: 12px;
+}
+
+.btn-custom {
+    padding: 12px 24px;
+    border-radius: 30px;
+    font-weight: 500;
+    font-size: 15px;
+    cursor: pointer;
+    border: none;
+    transition: all 0.2s;
+    text-decoration: none;
+    display: inline-block;
+}
+
+.btn-primary-custom {
+    background-color: var(--primary-olive);
+    color: var(--white);
+}
+
+.btn-primary-custom:hover {
+    background-color: var(--primary-olive-hover);
+}
+
+.btn-outline-custom {
+    background-color: transparent;
+    color: var(--text-dark);
+    border: 1px solid #d1d6cc;
+}
+
+.btn-outline-custom:hover {
+    background-color: #f5f7f2;
+}
+
+/* Hero Section */
+.hero-content {
+    display: flex;
+    gap: 40px;
+    flex: 1;
+}
+
+.hero-text-section {
+    flex: 0 0 45%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.hero-title {
+    font-size: 64px;
+    line-height: 1.1;
+    color: var(--text-dark);
+    margin-bottom: 24px;
+}
+
+.hero-title i {
+    font-weight: 600;
+    color: var(--primary-olive);
+}
+
+.hero-title .semi-bold {
+    font-weight: 600;
+}
+
+.hero-subtitle {
+    font-size: 18px;
+    line-height: 1.6;
+    color: var(--text-light);
+    margin-bottom: 40px;
+    max-width: 90%;
+}
+
+.hero-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+}
+
+.btn-large {
+    padding: 18px 32px;
+    font-size: 18px;
+    margin-right: auto;
+}
+
+.trustpilot-card {
+    background-color: var(--trustpilot-bg);
+    border-radius: 20px;
+    padding: 24px;
+    width: max-content;
+}
+
+.trustpilot-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-weight: 700;
+    font-size: 20px;
+    margin-bottom: 12px;
+}
+
+.trustpilot-text {
+    font-size: 14px;
+    color: var(--text-dark);
+}
+
+.trustpilot-text strong {
+    font-weight: 600;
+}
+
+/* Image Collage Section */
+.hero-images-section {
+    flex: 1;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.blob-container {
+    width: 100%;
+    height: 500px;
+    position: relative;
+}
+
+.blob-green {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 55%;
+    height: 60%;
+    background-color: var(--blob-green);
+    border-radius: 40px 40px 40px 0;
+    overflow: hidden;
+}
+
+.blob-white {
+    position: absolute;
+    top: 15%;
+    right: 0;
+    width: 50%;
+    height: 85%;
+    background-color: #f7ede2;
+    border-radius: 150px 150px 0 0;
+    overflow: hidden;
+}
+
+.blob-beige {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 45%;
+    height: 45%;
+    background-color: var(--blob-beige);
+    border-radius: 0 40px 0 0;
+    overflow: hidden;
+}
+
+.img-journal {
+    position: absolute;
+    bottom: 0%;
+    left: 10%;
+    width: 70%;
+    object-fit: contain;
+    transform: rotate(-5deg);
+}
+
+.img-woman {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: top;
+}
+
+.img-phone {
+    position: absolute;
+    bottom: -20%;
+    right: -20%;
+    width: 130%;
+    object-fit: contain;
+}
+
+/* Badges / Pills */
+.badge {
+    position: absolute;
+    background: rgba(255, 255, 255, 0.85);
+    backdrop-filter: blur(10px);
+    padding: 10px 18px;
+    border-radius: 30px;
+    font-weight: 600;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    z-index: 10;
+    color: var(--text-dark);
+}
+
+.badge-icon {
+    background-color: var(--sidebar-olive-dark);
+    color: white;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+}
+
+.badge-delivery {
+    top: 5%;
+    left: 5%;
+}
+
+.badge-therapeutic {
+    top: 25%;
+    right: -5%;
+}
+
+.badge-insurance {
+    top: 55%;
+    left: 40%;
+}
+
+.badge-coaching {
+    bottom: 15%;
+    left: -5%;
+}
+
+.badge-guidance {
+    bottom: -5%;
+    right: 10%;
+}
+
+
+/* Right Sidebar Column */
+.sidebar-col {
+    flex: 0 0 350px;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+/* Stress Widget */
+.stress-widget {
+    background-color: var(--sidebar-olive);
+    border-radius: 30px;
+    color: var(--white);
+    padding: 30px;
+    text-align: center;
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+}
+
+.widget-title {
+    font-size: 16px;
+    font-weight: 500;
+    margin-bottom: 20px;
+}
+
+/* Custom Range Slider */
+.slider-container {
+    margin-bottom: 20px;
+    position: relative;
+}
+
+input[type=range].custom-slider {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 100%;
+    background: transparent;
+}
+
+input[type=range].custom-slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    height: 24px;
+    width: 24px;
+    border-radius: 50%;
+    background: #f1d7bf;
+    cursor: pointer;
+    margin-top: -10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+input[type=range].custom-slider::-webkit-slider-runnable-track {
+    width: 100%;
+    height: 6px;
+    cursor: pointer;
+    background: rgba(255, 255, 255, 0.3);
+    border-radius: 3px;
+}
+
+.slider-track-fill {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 6px;
+    background: var(--white);
+    border-radius: 3px;
+    pointer-events: none;
+    width: 65%;
+    /* will dynamically change */
+}
+
+.current-stress-val {
+    font-size: 48px;
+    font-weight: 500;
+    margin-bottom: 20px;
+}
+
+.potential-card {
+    background-color: var(--sidebar-olive-dark);
+    border-radius: 20px;
+    padding: 30px 20px;
+}
+
+.potential-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 20px;
+    margin-bottom: 10px;
+}
+
+.potential-val {
+    font-family: 'Playfair Display', serif;
+    font-size: 42px;
+    line-height: 1.1;
+    margin-bottom: 15px;
+}
+
+.potential-note {
+    font-size: 12px;
+    opacity: 0.8;
+    line-height: 1.4;
+}
+
+/* Bottom info card */
+.bottom-info-card {
+    background-color: var(--white);
+    border-radius: 30px;
+    padding: 40px;
+    text-align: center;
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.05);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    flex: 1;
+}
+
+.bottom-info-card h2 {
+    font-size: 48px;
+    color: var(--text-dark);
+    line-height: 1.1;
+    margin-top: auto;
+    margin-bottom: 20px;
+}
+
+/* Bottom Banner */
+.bottom-banner {
+    margin-top: auto;
+    padding-top: 40px;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    border-top: 1px solid #eee;
+}
+
+.banner-icon {
+    width: 40px;
+    height: 40px;
+    background-color: var(--primary-olive);
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+}
+
+.banner-text {
+    font-family: 'Playfair Display', serif;
+    font-size: 24px;
+    color: var(--text-dark);
+    font-weight: 600;
+}

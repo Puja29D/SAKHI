@@ -1,0 +1,212 @@
+{% extends 'base.html' %}
+
+{% block title %}Dashboard - Sakhi{% endblock %}
+
+{% block styles %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/dashboard.css') }}">
+<!-- Load FontAwesome for icons -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+{% endblock %}
+
+{% block content %}
+<div class="dashboard-layout">
+
+    <!-- MAIN LEFT CARD -->
+    <div class="main-card">
+
+        <!-- Navbar inner replacement -->
+        <nav class="nav-header">
+            <a href="{{ url_for('dashboard') }}" class="logo">
+                sakhi
+            </a>
+            <div class="nav-links">
+                <a href="{{ url_for('rights') }}">My Rights</a>
+                <a href="{{ url_for('calm') }}">Healing Tools</a>
+                <a href="{{ url_for('progress') }}">My Progress</a>
+                <a href="{{ url_for('parent_dashboard') }}">Parents</a>
+            </div>
+            <div class="nav-actions">
+                <a style="font-size: 18px;" href="#" class="btn-custom btn-primary-custom"
+                    onclick="document.getElementById('quick-exit-btn').click()">Quick Exit <i
+                        class="fa-solid fa-person-running"></i></a>
+            </div>
+        </nav>
+
+        <!-- Hero Body -->
+        <div class="hero-content">
+
+            <!-- Text Sidebar -->
+            <div class="hero-text-section">
+                <h1 class="hero-title">
+                    A healing<br>
+                    <i>journey</i> that<br>
+                    feels like<br>
+                    <span class="semi-bold">sakhi</span>
+                </h1>
+                <p class="hero-subtitle">
+                    Swap your anxious mood for a peaceful feeling with our supportive, science-backed, safe space
+                    solution.
+                </p>
+
+                <div class="hero-actions">
+                    <a href="{{ url_for('calm') }}" class="btn-custom btn-primary-custom btn-large">Start your
+                        session</a>
+
+                    <div class="trustpilot-card">
+                        <div class="trustpilot-header">
+                            <i class="fa-solid fa-shield-halved" style="color: #00b67a;"></i> 100% Safe Space
+                        </div>
+                        <div class="trustpilot-text">
+                            Anonymous <strong>| private</strong> & secure.
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Images Collage Sidebar -->
+            <div class="hero-images-section">
+                <div class="blob-container">
+
+                    <!-- Blobs -->
+                    <div class="blob-green">
+                        <img src="{{ url_for('static', filename='sakhi_ui/sakhi_journal_1772214425941.png') }}"
+                            alt="Healing Journal" class="img-journal">
+                    </div>
+
+                    <div class="blob-beige">
+                        <img src="{{ url_for('static', filename='sakhi_ui/sakhi_phone_1772214459318.png') }}"
+                            alt="App UI" class="img-phone">
+                    </div>
+
+                    <div class="blob-white">
+                        <img src="{{ url_for('static', filename='sakhi_ui/sakhi_woman_1772214440331.png') }}"
+                            alt="Woman" class="img-woman">
+                    </div>
+
+                    <!-- Badges -->
+                    <div class="badge badge-delivery">
+                        <div class="badge-icon"><i class="fa-solid fa-scale-balanced"></i></div>
+                        free legal info
+                    </div>
+                    <div class="badge badge-therapeutic">
+                        <div class="badge-icon"><i class="fa-solid fa-heart"></i></div>
+                        therapeutic support
+                    </div>
+                    <div class="badge badge-insurance">
+                        <div class="badge-icon"><i class="fa-solid fa-shield-cat"></i></div>
+                        emergency support
+                    </div>
+                    <div class="badge badge-coaching">
+                        <div class="badge-icon"><i class="fa-solid fa-bullseye"></i></div>
+                        guided sessions
+                    </div>
+                    <div class="badge badge-guidance">
+                        <div class="badge-icon"><i class="fa-regular fa-face-smile"></i></div>
+                        1:1 guidance
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Bottom Banner attached inside card -->
+        <div class="bottom-banner">
+            <div class="banner-icon">
+                <i class="fa-solid fa-leaf"></i>
+            </div>
+            <div class="banner-text">
+                Wellness tools designed with care and empathy
+            </div>
+            <div class="banner-icon" style="margin-left: -5px;">
+                <i class="fa-solid fa-heart-pulse"></i>
+            </div>
+            <div class="banner-text">
+                Healing
+            </div>
+        </div>
+
+    </div>
+
+    <!-- RIGHT SIDEBAR COL -->
+    <div class="sidebar-col">
+
+        <!-- Calculator Widget -->
+        <div class="stress-widget">
+            <div class="widget-title">Check In: Daily Stress (1-10)</div>
+
+            <div class="slider-container">
+                <div class="slider-track-fill" id="sliderFill" style="width: 50%;"></div>
+                <input type="range" class="custom-slider" min="1" max="10" value="5" id="stressSlider"
+                    oninput="updateWidgets(this.value)">
+            </div>
+
+            <div class="current-stress-val" id="currentStress">5</div>
+
+            <div class="potential-card">
+                <div class="potential-title">Recommended<br>Action</div>
+                <div class="potential-val" id="lossAmount">Breathe</div>
+                <div class="potential-note">Log your mood everyday to keep track of your wellness journey.</div>
+            </div>
+
+            <button class="btn-custom btn-outline-custom"
+                style="width: 100%; border-color: rgba(255,255,255,0.3); color: white; margin-top: 10px;"
+                onclick="saveMood(document.getElementById('currentStress').innerText)">Log Mood</button>
+        </div>
+
+        <!-- Filler White Card -->
+        <div class="bottom-info-card">
+            <div class="logo" style="margin-bottom: auto; color: var(--text-dark);">
+                sakhi
+            </div>
+            <h2>Your<br>commitment<br>to healing</h2>
+        </div>
+
+    </div>
+
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    function updateWidgets(val) {
+        document.getElementById('currentStress').innerText = val;
+
+        let action = "Breathe";
+        if (val >= 8) action = "Call Help";
+        else if (val >= 5) action = "Meditate";
+        else if (val <= 3) action = "Journaling";
+
+        document.getElementById('lossAmount').innerText = action;
+
+        // Slider fill logic
+        let min = 1;
+        let max = 10;
+        let percent = ((val - min) / (max - min)) * 100;
+        document.getElementById('sliderFill').style.width = percent + '%';
+    }
+
+    // Init
+    updateWidgets(5);
+
+    function saveMood(moodVal) {
+        let moodStr = "Okay";
+        if (moodVal >= 8) moodStr = "Anxious";
+        else if (moodVal <= 3) moodStr = "Happy";
+
+        fetch('/api/mood', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ mood: moodStr }),
+        })
+            .then(response => response.json())
+            .then(data => {
+                if (data.status === 'success') {
+                    alert('Mood logged safely. Thank you for checking in.');
+                }
+            });
+    }
+</script>
+{% endblock %}

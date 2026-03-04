@@ -1,0 +1,267 @@
+{% extends 'base.html' %}
+
+{% block title %}Healing Tools - Sakhi{% endblock %}
+
+{% block styles %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/dashboard.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/calm.css') }}">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<style>
+    /* Adjust canvas to fit in the new hero section */
+    .canvas-section {
+        margin-top: 30px;
+        background: #fdf2e8;
+        padding: 20px;
+        border-radius: 20px;
+        border: 1px solid var(--sidebar-olive-dark);
+    }
+
+    #doodle-canvas {
+        width: 100%;
+        height: 300px;
+        background: white;
+        border-radius: 10px;
+        margin-top: 10px;
+        cursor: crosshair;
+    }
+
+    .canvas-controls {
+        display: flex;
+        gap: 10px;
+        margin-top: 15px;
+    }
+
+    .color-btn {
+        width: 24px;
+        height: 24px;
+        border-radius: 50%;
+        cursor: pointer;
+        border: 2px solid transparent;
+    }
+
+    .color-btn.active {
+        border: 2px solid var(--text-dark);
+        transform: scale(1.1);
+    }
+
+    /* Breathing Widget in Sidebar */
+    .breathing-circle-container {
+        height: 180px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin: 20px 0;
+    }
+
+    .breathing-circle {
+        width: 120px;
+        height: 120px;
+        border-radius: 50%;
+        background: radial-gradient(circle, #f1d7bf 0%, var(--sidebar-olive-dark) 100%);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-weight: bold;
+        font-size: 14px;
+        transition: transform 4s ease-in-out;
+        box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="dashboard-layout">
+
+    <!-- MAIN LEFT CARD -->
+    <div class="main-card">
+
+        <!-- Navbar inner replacement -->
+        <nav class="nav-header">
+            <a href="{{ url_for('dashboard') }}" class="logo">
+                sakhi
+            </a>
+            <div class="nav-links">
+                <a href="{{ url_for('rights') }}">My Rights</a>
+                <a href="{{ url_for('calm') }}" style="color: var(--text-dark); font-weight: 700;">Healing Tools</a>
+                <a href="{{ url_for('progress') }}">My Progress</a>
+                <a href="{{ url_for('parent_dashboard') }}">Parents</a>
+            </div>
+            <div class="nav-actions">
+                <a style="font-size: 18px;" href="#" class="btn-custom btn-primary-custom"
+                    onclick="document.getElementById('quick-exit-btn').click()">Quick Exit <i
+                        class="fa-solid fa-person-running"></i></a>
+            </div>
+        </nav>
+
+        <!-- Hero Body -->
+        <div class="hero-content">
+
+            <!-- Text Sidebar -->
+            <div class="hero-text-section">
+                <h1 class="hero-title">
+                    Your safe<br>
+                    <i>space</i> to<br>
+                    breathe and<br>
+                    <span class="semi-bold">heal</span>
+                </h1>
+                <p class="hero-subtitle">
+                    Tools to help you ground yourself. Take a moment to draw how peace feels to you today.
+                </p>
+
+                <div class="canvas-section">
+                    <h3 style="font-family: 'DM Sans'; display: flex; align-items: center; gap: 8px;"><i
+                            class="fa-solid fa-palette"></i> Creativity Corner</h3>
+                    <canvas id="doodle-canvas"></canvas>
+                    <div class="canvas-controls">
+                        <div class="color-btn active" style="background: #FF0000;" data-color="#FF0000"></div>
+                        <div class="color-btn" style="background: #FF69B4;" data-color="#FF69B4"></div>
+                        <div class="color-btn" style="background: #FFFF00;" data-color="#FFFF00"></div>
+                        <div class="color-btn" style="background: #00C000;" data-color="#00C000"></div>
+                        <div class="color-btn" style="background: #0000FF;" data-color="#0000FF"></div>
+                        <div class="color-btn" style="background: #800080;" data-color="#800080"></div>
+                        <div class="color-btn" style="background: #8B4513;" data-color="#8B4513"></div>
+                        <div class="color-btn" style="background: #000000;" data-color="#000000"></div>
+                    </div>
+                    <div style="margin-top: 15px; display: flex; gap: 10px;">
+                        <button id="clear-canvas" class="btn-custom btn-outline-custom"
+                            style="padding: 8px 16px;">Clear</button>
+                        <button id="save-canvas" class="btn-custom btn-primary-custom" style="padding: 8px 16px;">Save
+                            Memory</button>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Images Collage Sidebar -->
+            <div class="hero-images-section">
+                <div class="blob-container">
+
+                    <!-- Blobs -->
+                    <div class="blob-green">
+                        <img src="{{ url_for('static', filename='sakhi_ui/sakhi_journal_1772214425941.png') }}"
+                            alt="Healing Journal" class="img-journal">
+                    </div>
+
+                    <div class="blob-beige">
+                        <img src="{{ url_for('static', filename='sakhi_ui/sakhi_phone_1772214459318.png') }}"
+                            alt="App UI" class="img-phone">
+                    </div>
+
+                    <div class="blob-white">
+                        <img src="{{ url_for('static', filename='sakhi_ui/calm_meditation_1772215878802.png') }}"
+                            alt="Meditation Woman" class="img-woman">
+                    </div>
+
+                    <!-- Badges -->
+                    <div class="badge badge-delivery">
+                        <div class="badge-icon"><i class="fa-solid fa-leaf"></i></div>
+                        grounding tools
+                    </div>
+                    <div class="badge badge-coaching">
+                        <div class="badge-icon"><i class="fa-solid fa-heart-pulse"></i></div>
+                        anxiety relief
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- RIGHT SIDEBAR COL -->
+    <div class="sidebar-col">
+
+        <!-- Breathing Widget -->
+        <div class="stress-widget">
+            <div class="widget-title">4-7-8 Breathing</div>
+
+            <div class="breathing-circle-container">
+                <div id="breathing-circle" class="breathing-circle">
+                    <span id="breath-instruction">Ready?</span>
+                </div>
+            </div>
+
+            <div class="potential-card">
+                <div class="potential-title">Current Phase</div>
+                <div class="potential-val" id="breath-phase" style="font-size: 28px;">Rest</div>
+                <div class="potential-note">Inhale for 4s, Hold for 7s, Exhale for 8s.</div>
+            </div>
+
+            <button id="start-breath-btn" class="btn-custom btn-primary-custom"
+                style="width: 100%; margin-top: 15px; color: white; background: #c54a5a;">Start Breathing</button>
+            <button id="stop-breath-btn" class="btn-custom btn-outline-custom"
+                style="width: 100%; margin-top: 10px; border-color: rgba(255,255,255,0.3); color: white; display: none;">Stop</button>
+        </div>
+
+        <!-- Filler White Card -->
+        <div class="bottom-info-card">
+            <div class="logo" style="margin-bottom: auto; color: var(--text-dark);">
+                sakhi
+            </div>
+            <h2>Peace<br>begins<br>within.</h2>
+        </div>
+
+    </div>
+
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/canvas.js') }}"></script>
+<script>
+    // Embedded Breathing Logic tailored for the new UI widget
+    const circle = document.getElementById('breathing-circle');
+    const instruction = document.getElementById('breath-instruction');
+    const phaseText = document.getElementById('breath-phase');
+    const startBtn = document.getElementById('start-breath-btn');
+    const stopBtn = document.getElementById('stop-breath-btn');
+
+    let breathInterval;
+
+    const totalTime = 19000;
+    const breatheTime = 4000;
+    const holdTime = 7000;
+
+    function breathAnimation() {
+        // Inhale
+        instruction.innerText = 'Breathe In!';
+        phaseText.innerText = 'Inhaling...';
+        circle.style.transform = 'scale(1.5)';
+        circle.style.background = 'radial-gradient(circle, #fdf2e8 0%, #738466 100%)';
+
+        setTimeout(() => {
+            // Hold
+            instruction.innerText = 'Hold';
+            phaseText.innerText = 'Holding...';
+            circle.style.background = 'radial-gradient(circle, #f1d7bf 0%, #5d6854 100%)';
+
+            setTimeout(() => {
+                // Exhale
+                instruction.innerText = 'Breathe Out!';
+                phaseText.innerText = 'Exhaling...';
+                circle.style.transform = 'scale(1)';
+                circle.style.background = 'radial-gradient(circle, #fdf2e8 0%, #90a582 100%)';
+            }, holdTime);
+        }, breatheTime);
+    }
+
+    startBtn.addEventListener('click', () => {
+        startBtn.style.display = 'none';
+        stopBtn.style.display = 'block';
+        breathAnimation();
+        breathInterval = setInterval(breathAnimation, totalTime);
+    });
+
+    stopBtn.addEventListener('click', () => {
+        clearInterval(breathInterval);
+        startBtn.style.display = 'block';
+        stopBtn.style.display = 'none';
+        instruction.innerText = 'Ready?';
+        phaseText.innerText = 'Rest';
+        circle.style.transform = 'scale(1)';
+        circle.style.background = 'radial-gradient(circle, #f1d7bf 0%, var(--sidebar-olive-dark) 100%)';
+    });
+</script>
+{% endblock %}

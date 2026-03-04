@@ -1,0 +1,180 @@
+{% extends 'base.html' %}
+
+{% block title %}Parent & Guardian Guide - Sakhi{% endblock %}
+
+{% block styles %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/dashboard.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/parent.css') }}">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<style>
+    /* Specific Parent overrides */
+    .parent-card {
+        background: #fdf2e8;
+        padding: 25px;
+        border-radius: 20px;
+        margin-bottom: 20px;
+    }
+
+    .parent-card h3 {
+        margin-top: 0;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        font-family: 'DM Sans', sans-serif;
+        color: var(--primary-olive);
+    }
+
+    .parent-highlight {
+        background: white;
+        padding: 15px;
+        border-radius: 10px;
+        border-left: 4px solid #00b67a;
+        margin-top: 10px;
+        font-size: 14px;
+    }
+
+    .parent-highlight.warning {
+        border-left-color: #c54a5a;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="dashboard-layout">
+
+    <!-- MAIN LEFT CARD -->
+    <div class="main-card">
+
+        <!-- Navbar inner replacement -->
+        <nav class="nav-header">
+            <a href="{{ url_for('dashboard') }}" class="logo">
+                sakhi
+            </a>
+            <div class="nav-links">
+                <a href="{{ url_for('rights') }}">My Rights</a>
+                <a href="{{ url_for('calm') }}">Healing Tools</a>
+                <a href="{{ url_for('progress') }}">My Progress</a>
+                <a href="{{ url_for('parent_dashboard') }}"
+                    style="color: var(--text-dark); font-weight: 700;">Parents</a>
+            </div>
+            <div class="nav-actions">
+                <a style="font-size: 18px;" href="#" class="btn-custom btn-primary-custom"
+                    onclick="document.getElementById('quick-exit-btn').click()">Quick Exit <i
+                        class="fa-solid fa-person-running"></i></a>
+            </div>
+        </nav>
+
+        <!-- Hero Body -->
+        <div class="hero-content">
+
+            <!-- Text Sidebar -->
+            <div class="hero-text-section">
+                <h1 class="hero-title">
+                    You showed<br>
+                    <i>up</i>. That's<br>
+                    what <span class="semi-bold">matters.</span>
+                </h1>
+                <p class="hero-subtitle">
+                    Your child needs you. We're here to help you show up for them with the right guidance and support.
+                </p>
+
+                <!-- Parent Guidance Content -->
+                <div class="parent-card">
+                    <h3><i class="fa-solid fa-ear-listen"></i> How to Listen</h3>
+                    <p>Your child needs to know they are believed and not blamed.</p>
+                    <div class="parent-highlight">
+                        <strong>Say this:</strong> "I believe you. I am here for you. It's not your fault."
+                    </div>
+                    <div class="parent-highlight warning">
+                        <strong>Avoid this:</strong> "Why didn't you tell me sooner?" or "What were you wearing?"
+                    </div>
+                </div>
+
+                <div class="parent-card">
+                    <h3><i class="fa-solid fa-shield-cat"></i> Immediate Safety</h3>
+                    <ul style="padding-left: 20px; font-size: 14px; line-height: 1.6;">
+                        <li>Is the offender still accessible to the child? Ensure physical separation.</li>
+                        <li>Does the child need urgent medical care? (Bleeding, pain, recent incident).</li>
+                        <li>Preserve evidence if the incident was recent (do not wash clothes/bathe if possible).</li>
+                    </ul>
+                </div>
+
+                <a href="#" class="btn-custom btn-primary-custom"><i class="fa-solid fa-download"></i> Download "First
+                    Steps" Guide (PDF)</a>
+            </div>
+
+            <!-- Images Collage Sidebar -->
+            <div class="hero-images-section">
+                <div class="blob-container">
+
+                    <!-- Blobs -->
+                    <div class="blob-green">
+                        <img src="{{ url_for('static', filename='sakhi_ui/rights_document_1772215824094.png') }}"
+                            alt="Guide" class="img-journal">
+                    </div>
+
+                    <div class="blob-beige">
+                        <img src="{{ url_for('static', filename='sakhi_ui/sakhi_phone_1772214459318.png') }}"
+                            alt="App UI" class="img-phone">
+                    </div>
+
+                    <div class="blob-white">
+                        <img src="{{ url_for('static', filename='sakhi_ui/parent_comfort_1772215860507.png') }}"
+                            alt="Comforting Hands" class="img-woman">
+                    </div>
+
+                    <!-- Badges -->
+                    <div class="badge badge-delivery">
+                        <div class="badge-icon"><i class="fa-solid fa-people-roof"></i></div>
+                        understanding POCSO
+                    </div>
+                    <div class="badge badge-coaching">
+                        <div class="badge-icon"><i class="fa-solid fa-user-doctor"></i></div>
+                        find psychologists
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- RIGHT SIDEBAR COL -->
+    <div class="sidebar-col">
+
+        <!-- Emergency Widget -->
+        <div class="stress-widget" style="background-color: #c54a5a;">
+            <div class="widget-title" style="color: white; font-weight: 600;">Emergency Support</div>
+
+            <i class="fa-solid fa-truck-medical" style="font-size: 48px; color: white; margin: 20px 0;"></i>
+
+            <div class="potential-card" style="background: rgba(0,0,0,0.2);">
+                <div class="potential-title" style="color: white; font-family: 'DM Sans', sans-serif; font-size: 16px;">
+                    CHILDLINE</div>
+                <div class="potential-val" style="font-size: 32px; color: white; margin-bottom: 5px;">1098</div>
+            </div>
+
+            <div class="potential-card" style="background: rgba(0,0,0,0.2); margin-top: 15px;">
+                <div class="potential-title" style="color: white; font-family: 'DM Sans', sans-serif; font-size: 16px;">
+                    Police</div>
+                <div class="potential-val" style="font-size: 32px; color: white; margin-bottom: 5px;">100</div>
+            </div>
+
+            <p style="font-size: 12px; color: rgba(255,255,255,0.8); margin-top: 20px; line-height: 1.4;">
+                You can call these numbers anonymously to ask questions before deciding to report officially.
+            </p>
+        </div>
+
+        <!-- Filler White Card -->
+        <div class="bottom-info-card">
+            <div class="logo" style="margin-bottom: auto; color: var(--text-dark);">
+                sakhi
+            </div>
+            <h2>Healing<br>takes<br>time.</h2>
+        </div>
+
+    </div>
+
+</div>
+{% endblock %}
