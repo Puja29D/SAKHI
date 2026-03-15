@@ -1,9 +1,10 @@
-from flask import Flask, render_template, request, jsonify, session, g, redirect, url_for
+from flask import Flask, render_template, request, jsonify, session, g, redirect, url_for, make_response, send_from_directory
 from database import db, init_db
 from models import User, ActivityLog, RightsView, CalmSession, StreakTracker, ParentActivity
 import random
 from datetime import datetime
 import os
+import io
 import google.generativeai as genai
 
 # Configure Gemini
@@ -106,22 +107,6 @@ def calm():
     log_activity('calm')
     return render_template('calm.html')
 
-@app.route('/progress')
-def progress():
-    user = get_current_user()
-    if not user:
-        return redirect(url_for('index'))
-    log_activity('progress')
-    days_joined = (datetime.utcnow() - user.created_at).days
-    calm_sessions = CalmSession.query.filter_by(user_id=user.id).count()
-    streak = user.streak_days
-    resources_accessed = ActivityLog.query.filter_by(user_id=user.id).count()
-    return render_template('progress.html',
-                           user=user,
-                           days_joined=days_joined,
-                           calm_sessions=calm_sessions,
-                           streak=streak,
-                           resources_accessed=resources_accessed)
 
 @app.route('/parent/dashboard')
 def parent_dashboard_redirect():
@@ -138,6 +123,10 @@ def parent_dashboard():
 def quick_exit():
     session.clear()
     return jsonify({"status": "success", "url": "https://www.google.com"})
+
+@app.route('/sounds/<path:filename>')
+def serve_sounds(filename):
+    return send_from_directory('sounds', filename)
 
 # --- API Endpoints ---
 
@@ -214,6 +203,138 @@ def chat():
              return jsonify({"status": "success", "response": fallback_response})
              
         return jsonify({"status": "error", "message": "I'm having trouble connecting right now. Please try again later."}), 500
+
+@app.route('/download/first-steps-guide')
+def download_first_steps_guide():
+    """Generate and serve the 'First Steps' Guide as a downloadable PDF."""
+    # Build a minimal valid PDF manually (no extra dependencies needed)
+    pdf_content = _generate_first_steps_pdf()
+    
+    response = make_response(pdf_content)
+    response.headers['Content-Type'] = 'application/pdf'
+    response.headers['Content-Disposition'] = 'attachment; filename=Sakhi_First_Steps_Guide.pdf'
+    return response
+
+def _generate_first_steps_pdf():
+    """Generate a simple PDF document with the First Steps guide content."""
+    # Content for the guide
+    sections = [
+        ("SAKHI - First Steps Guide for Parents & Guardians", ""),
+        ("", "This guide is for parents and guardians who have learned that their"),
+        ("", "child may have experienced abuse. Your response matters deeply."),
+        ("", ""),
+        ("Step 1: Stay Calm", ""),
+        ("", "Your child needs to see that you are a safe person to talk to."),
+        ("", "Take a deep breath before responding. Your composure gives them strength."),
+        ("", ""),
+        ("Step 2: Listen and Believe", ""),
+        ("", "Say: 'I believe you. I am here for you. It is not your fault.'"),
+        ("", "Avoid: 'Why didn't you tell me sooner?' or any blaming questions."),
+        ("", "Let them share at their own pace. Do not pressure for details."),
+        ("", ""),
+        ("Step 3: Ensure Immediate Safety", ""),
+        ("", "- Is the offender still accessible to the child? Ensure physical separation."),
+        ("", "- Does the child need urgent medical care?"),
+        ("", "- Preserve evidence if the incident was recent."),
+        ("", "  (Do not wash clothes or bathe if possible)"),
+        ("", ""),
+        ("Step 4: Report and Seek Help", ""),
+        ("", "CHILDLINE (India): 1098 - Free, 24/7, anonymous"),
+        ("", "Police Emergency: 100"),
+        ("", "Women Helpline: 1091"),
+        ("", "iCall Helpline: 9152987821"),
+        ("", ""),
+        ("Step 5: Get Professional Support", ""),
+        ("", "- Find a child psychologist or trauma-informed therapist."),
+        ("", "- Consider family counseling to support healing together."),
+        ("", "- Your child's school counselor can also be a resource."),
+        ("", ""),
+        ("Step 6: Know the Law - POCSO Act", ""),
+        ("", "The Protection of Children from Sexual Offences (POCSO) Act, 2012"),
+        ("", "makes it mandatory to report child sexual abuse."),
+        ("", "- Reporting is confidential and child-friendly."),
+        ("", "- The child's identity is protected by law."),
+        ("", "- You will NOT get in trouble for reporting."),
+        ("", ""),
+        ("Remember", ""),
+        ("", "Healing takes time. Your child's recovery begins with your support."),
+        ("", "You showed up. That is what matters."),
+        ("", ""),
+        ("", "For more resources, visit Sakhi at support@sakhi.example.com"),
+    ]
+
+    # Build PDF content using raw PDF format
+    buf = io.BytesIO()
+    
+    # Build page content lines
+    lines = []
+    y = 750  # Start position from top
+    for title, text in sections:
+        if title:
+            lines.append(f"BT /F2 14 Tf {50} {y} Td ({_pdf_escape(title)}) Tj ET")
+            y -= 22
+        if text:
+            lines.append(f"BT /F1 11 Tf {55} {y} Td ({_pdf_escape(text)}) Tj ET")
+            y -= 16
+        if not title and not text:
+            y -= 10
+        # Start a new page if running low on space
+        if y < 60:
+            y = 750
+    
+    stream_content = "\n".join(lines)
+    stream_length = len(stream_content)
+    
+    pdf = f"""%PDF-1.4
+1 0 obj
+<< /Type /Catalog /Pages 2 0 R >>
+endobj
+
+2 0 obj
+<< /Type /Pages /Kids [3 0 R] /Count 1 >>
+endobj
+
+3 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792]
+   /Contents 4 0 R /Resources << /Font << /F1 5 0 R /F2 6 0 R >> >> >>
+endobj
+
+4 0 obj
+<< /Length {stream_length} >>
+stream
+{stream_content}
+endstream
+endobj
+
+5 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica >>
+endobj
+
+6 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica-Bold >>
+endobj
+
+xref
+0 7
+0000000000 65535 f 
+0000000009 00000 n 
+0000000058 00000 n 
+0000000115 00000 n 
+0000000266 00000 n 
+0000000{str(317 + stream_length).zfill(3)} 00000 n 
+0000000{str(394 + stream_length).zfill(3)} 00000 n 
+
+trailer
+<< /Size 7 /Root 1 0 R >>
+startxref
+{471 + stream_length}
+%%EOF"""
+    
+    return pdf.encode('latin-1')
+
+def _pdf_escape(text):
+    """Escape special PDF characters in text."""
+    return text.replace('\\', '\\\\').replace('(', '\\(').replace(')', '\\)').replace("'", "\\'") 
 
 if __name__ == '__main__':
     app.run(debug=True, port=5000)

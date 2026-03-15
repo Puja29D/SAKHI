@@ -9,15 +9,16 @@
 }
 
 #chatbot-toggle {
+    position: relative;
     width: 60px;
     height: 60px;
     border-radius: 50%;
-    background-color: var(--primary-color, #e91e63);
+    background-color: var(--primary-color, #c54a5a);
     /* Sakhi theme fallbacks */
     color: white;
     border: none;
     cursor: pointer;
-    box-shadow: 0 4px 12px rgba(233, 30, 99, 0.3);
+    box-shadow: 0 4px 12px rgba(197, 74, 90, 0.3);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -26,7 +27,40 @@
 
 #chatbot-toggle:hover {
     transform: scale(1.05);
-    box-shadow: 0 6px 16px rgba(233, 30, 99, 0.4);
+    box-shadow: 0 6px 16px rgba(197, 74, 90, 0.4);
+}
+
+.chatbot-tooltip {
+    position: absolute;
+    right: 75px;
+    top: 50%;
+    transform: translateY(-50%) translateX(10px);
+    background-color: var(--text-dark, #373e34);
+    color: white;
+    padding: 8px 14px;
+    border-radius: 8px;
+    font-size: 14px;
+    white-space: nowrap;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.chatbot-tooltip::after {
+    content: '';
+    position: absolute;
+    right: -6px;
+    top: 50%;
+    transform: translateY(-50%);
+    border-width: 6px 0 6px 6px;
+    border-style: solid;
+    border-color: transparent transparent transparent var(--text-dark, #373e34);
+}
+
+#chatbot-toggle:hover .chatbot-tooltip {
+    opacity: 1;
+    transform: translateY(-50%) translateX(0);
 }
 
 #chatbot-toggle i {
@@ -58,7 +92,7 @@
 }
 
 #chatbot-header {
-    background-color: var(--primary-color, #e91e63);
+    background-color: var(--primary-color, #c54a5a);
     color: white;
     padding: 1rem;
     display: flex;
@@ -110,7 +144,7 @@
 
 .message.user {
     align-self: flex-end;
-    background-color: var(--primary-color, #e91e63);
+    background-color: var(--primary-color, #c54a5a);
     color: white;
     border-bottom-right-radius: 4px;
 }
@@ -194,14 +228,14 @@
 }
 
 #chatbot-input:focus {
-    border-color: var(--primary-color, #e91e63);
+    border-color: var(--primary-color, #c54a5a);
 }
 
 #chatbot-send {
     width: 42px;
     height: 42px;
     border-radius: 50%;
-    background-color: var(--primary-color, #e91e63);
+    background-color: var(--primary-color, #c54a5a);
     color: white;
     border: none;
     cursor: pointer;
@@ -212,7 +246,7 @@
 }
 
 #chatbot-send:hover {
-    background-color: #c2185b;
+    background-color: #a83f4d;
 }
 
 #chatbot-send:disabled {

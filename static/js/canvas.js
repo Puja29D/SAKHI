@@ -3,6 +3,14 @@ const ctx = canvas.getContext('2d');
 let isDrawing = false;
 let color = '#E8A0BF'; // Default Dusty Rose
 
+let undoStack = [];
+let redoStack = [];
+
+function saveState() {
+    undoStack.push(canvas.toDataURL());
+    redoStack = []; // Clear redo stack on new action
+}
+
 // Resize canvas
 function resizeCanvas() {
     const parent = canvas.parentElement;
@@ -17,6 +25,7 @@ resizeCanvas(); // Init
 
 // Drawing Functions
 function startDraw(e) {
+    saveState();
     isDrawing = true;
 
     // We need to set the starting point so it doesn't draw a huge line from (0,0)
@@ -77,14 +86,40 @@ document.querySelectorAll('.color-btn').forEach(btn => {
 });
 
 document.getElementById('clear-canvas').addEventListener('click', () => {
+    saveState();
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 });
 
 document.getElementById('save-canvas').addEventListener('click', () => {
-    const link = document.createElement('a');
-    link.download = 'my-safe-space.png';
-    link.href = canvas.toDataURL();
-    link.click();
+    // Create a temporary canvas with a white background
+    const tempCanvas = document.createElement('canvas');
+    tempCanvas.width = canvas.width;
+    tempCanvas.height = canvas.height;
+    const tempCtx = tempCanvas.getContext('2d');
+
+    // Fill with white background (the visible white is CSS, canvas is transparent)
+    tempCtx.fillStyle = '#FFFFFF';
+    tempCtx.fillRect(0, 0, tempCanvas.width, tempCanvas.height);
+
+    // Draw the actual doodle on top
+    tempCtx.drawImage(canvas, 0, 0);
+
+    // Use blob-based download for better browser compatibility
+    tempCanvas.toBlob(function(blob) {
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement('a');
+        link.download = 'my-safe-space.png';
+        link.href = url;
+        link.style.display = 'none';
+        document.body.appendChild(link);
+        link.click();
+
+        // Cleanup
+        setTimeout(() => {
+            document.body.removeChild(link);
+            URL.revokeObjectURL(url);
+        }, 100);
+    }, 'image/png');
 
     // Log functionality
     fetch('/api/calm-session', {
@@ -93,3 +128,33 @@ document.getElementById('save-canvas').addEventListener('click', () => {
         body: JSON.stringify({ type: 'doodle', duration: 0 })
     });
 });
+
+const undoBtn = document.getElementById('undo-btn');
+if (undoBtn) {
+    undoBtn.addEventListener('click', () => {
+        if (undoStack.length > 0) {
+            redoStack.push(canvas.toDataURL());
+            let img = new Image();
+            img.src = undoStack.pop();
+            img.onload = () => {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+            };
+        }
+    });
+}
+
+const redoBtn = document.getElementById('redo-btn');
+if (redoBtn) {
+    redoBtn.addEventListener('click', () => {
+        if (redoStack.length > 0) {
+            undoStack.push(canvas.toDataURL());
+            let img = new Image();
+            img.src = redoStack.pop();
+            img.onload = () => {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+            };
+        }
+    });
+}

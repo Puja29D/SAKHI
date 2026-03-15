@@ -18,9 +18,9 @@
     --error-red: #D32F2F;
 
     /* Typography */
-    --font-heading: 'Playfair Display', serif;
+    --font-heading: 'DM Sans', sans-serif;
     --font-body: 'DM Sans', sans-serif;
-    --font-accent: 'Lato', sans-serif;
+    --font-accent: 'DM Sans', sans-serif;
 }
 
 * {

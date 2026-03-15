@@ -8,12 +8,21 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 <style>
     /* Adjust canvas to fit in the new hero section */
+    .hero-text-section {
+        justify-content: flex-start !important;
+        padding-top: 5px;
+    }
+
     .canvas-section {
-        margin-top: 30px;
+        margin-top: 0px;
         background: #fdf2e8;
-        padding: 20px;
+        padding: 24px;
         border-radius: 20px;
-        border: 1px solid var(--sidebar-olive-dark);
+        border: 1px solid #d1d6cc;
+    }
+
+    .hero-subtitle {
+        margin-bottom: 15px !important;
     }
 
     #doodle-canvas {
@@ -27,16 +36,18 @@
 
     .canvas-controls {
         display: flex;
-        gap: 10px;
-        margin-top: 15px;
+        gap: 12px;
+        margin-top: 20px;
+        justify-content: center;
     }
 
     .color-btn {
-        width: 24px;
-        height: 24px;
+        width: 28px;
+        height: 28px;
         border-radius: 50%;
         cursor: pointer;
         border: 2px solid transparent;
+        transition: transform 0.2s;
     }
 
     .color-btn.active {
@@ -67,6 +78,168 @@
         transition: transform 4s ease-in-out;
         box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
     }
+
+    /* Grounding Card Widget */
+    .grounding-widget {
+        background-color: white;
+        border: none;
+        border-radius: 20px;
+        padding: 24px;
+        color: var(--text-dark);
+    }
+
+    .grounding-widget .widget-title {
+        font-family: 'DM Sans', sans-serif;
+        font-size: 22px;
+        text-align: center;
+        margin-bottom: 15px;
+        color: var(--text-dark);
+    }
+
+
+
+    .grounding-list {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+    }
+
+    .sense-item {
+        font-family: 'DM Sans', sans-serif;
+        font-size: 14px;
+        color: var(--text-dark);
+        opacity: 0;
+        transform: translateY(10px);
+        animation: fadeInUp 0.8s forwards;
+        transition: transform 0.3s;
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+    }
+
+    .sense-item label {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        cursor: pointer;
+    }
+
+    .sense-item input {
+        background: rgba(0, 0, 0, 0.04);
+        border: 1px solid rgba(0, 0, 0, 0.1);
+        border-radius: 8px;
+        padding: 8px 12px;
+        color: var(--text-dark);
+        font-family: var(--font-body), 'DM Sans', sans-serif;
+        font-size: 13px;
+        outline: none;
+        transition: background 0.2s, border-color 0.2s;
+    }
+
+    .sense-item input::placeholder {
+        color: rgba(0, 0, 0, 0.4);
+    }
+
+    .sense-item input:focus {
+        background: rgba(0, 0, 0, 0.08);
+        border-color: rgba(0, 0, 0, 0.3);
+    }
+
+    .sense-item:last-child {
+        margin-bottom: 0px;
+    }
+
+
+
+
+
+    .sense-item:nth-child(1) {
+        animation-delay: 0.2s;
+    }
+
+    .sense-item:nth-child(2) {
+        animation-delay: 0.4s;
+    }
+
+    .sense-item:nth-child(3) {
+        animation-delay: 0.6s;
+    }
+
+    .sense-item:nth-child(4) {
+        animation-delay: 0.8s;
+    }
+
+    .sense-item:nth-child(5) {
+        animation-delay: 1.0s;
+    }
+
+    @keyframes fadeInUp {
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    .sound-card {
+        margin-top: 30px;
+        background: #fdf2e8;
+        padding: 24px;
+        border-radius: 20px;
+        border: 1px solid #d1d6cc;
+    }
+
+    .sound-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 12px;
+        margin-top: 15px;
+    }
+
+    .sound-btn {
+        padding: 12px;
+        border-radius: 12px;
+        border: 1px solid #d1d6cc;
+        background: white;
+        cursor: pointer;
+        transition: all 0.2s;
+        font-family: 'DM Sans', sans-serif;
+        font-size: 14px;
+        color: var(--text-dark);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+    }
+
+    .sound-btn:hover {
+        background: #f5f7f2;
+        transform: translateY(-2px);
+    }
+
+    .sound-btn.active {
+        background: var(--sidebar-olive-dark);
+        color: white;
+        border-color: var(--sidebar-olive-dark);
+    }
+
+    #stop-sound-btn {
+        width: 100%;
+        margin-top: 15px;
+        background: #c54a5a;
+        color: white;
+        border: none;
+        padding: 12px;
+        border-radius: 30px;
+        cursor: pointer;
+        font-family: 'DM Sans', sans-serif;
+        font-weight: 500;
+        transition: opacity 0.2s;
+        display: none;
+    }
+
+    #stop-sound-btn:hover {
+        opacity: 0.9;
+    }
 </style>
 {% endblock %}
 
@@ -79,12 +252,11 @@
         <!-- Navbar inner replacement -->
         <nav class="nav-header">
             <a href="{{ url_for('dashboard') }}" class="logo">
-                sakhi
+                SAKHI
             </a>
             <div class="nav-links">
                 <a href="{{ url_for('rights') }}">My Rights</a>
                 <a href="{{ url_for('calm') }}" style="color: var(--text-dark); font-weight: 700;">Healing Tools</a>
-                <a href="{{ url_for('progress') }}">My Progress</a>
                 <a href="{{ url_for('parent_dashboard') }}">Parents</a>
             </div>
             <div class="nav-actions">
@@ -110,8 +282,23 @@
                 </p>
 
                 <div class="canvas-section">
-                    <h3 style="font-family: 'DM Sans'; display: flex; align-items: center; gap: 8px;"><i
-                            class="fa-solid fa-palette"></i> Creativity Corner</h3>
+                    <div
+                        style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+                        <h3 style="font-family: 'DM Sans'; display: flex; align-items: center; gap: 8px; margin: 0;"><i
+                                class="fa-solid fa-palette"></i> Creativity Corner</h3>
+                        <div style="display: flex; gap: 15px;">
+                            <button id="undo-btn"
+                                style="background: none; border: none; cursor: pointer; color: var(--text-dark); opacity: 0.6; transition: opacity 0.2s;"
+                                onmouseover="this.style.opacity=1" onmouseout="this.style.opacity=0.6" title="Undo">
+                                <i class="fa-solid fa-rotate-left" style="font-size: 18px;"></i>
+                            </button>
+                            <button id="redo-btn"
+                                style="background: none; border: none; cursor: pointer; color: var(--text-dark); opacity: 0.6; transition: opacity 0.2s;"
+                                onmouseover="this.style.opacity=1" onmouseout="this.style.opacity=0.6" title="Redo">
+                                <i class="fa-solid fa-rotate-right" style="font-size: 18px;"></i>
+                            </button>
+                        </div>
+                    </div>
                     <canvas id="doodle-canvas"></canvas>
                     <div class="canvas-controls">
                         <div class="color-btn active" style="background: #FF0000;" data-color="#FF0000"></div>
@@ -123,14 +310,15 @@
                         <div class="color-btn" style="background: #8B4513;" data-color="#8B4513"></div>
                         <div class="color-btn" style="background: #000000;" data-color="#000000"></div>
                     </div>
-                    <div style="margin-top: 15px; display: flex; gap: 10px;">
+                    <div style="margin-top: 20px; display: flex; gap: 12px; justify-content: flex-start;">
                         <button id="clear-canvas" class="btn-custom btn-outline-custom"
-                            style="padding: 8px 16px;">Clear</button>
-                        <button id="save-canvas" class="btn-custom btn-primary-custom" style="padding: 8px 16px;">Save
+                            style="padding: 10px 20px; font-size: 14px; border: 1px solid #d1d6cc;">Clear</button>
+                        <button id="save-canvas" class="btn-custom btn-primary-custom"
+                            style="padding: 10px 20px; font-size: 14px;">Save
                             Memory</button>
                     </div>
                 </div>
-
+                
             </div>
 
             <!-- Images Collage Sidebar -->
@@ -139,13 +327,13 @@
 
                     <!-- Blobs -->
                     <div class="blob-green">
-                        <img src="{{ url_for('static', filename='sakhi_ui/sakhi_journal_1772214425941.png') }}"
-                            alt="Healing Journal" class="img-journal">
+                        <img src="{{ url_for('static', filename='sakhi_ui/grounding_nature.png') }}"
+                            alt="Grounding Nature" class="img-journal">
                     </div>
 
                     <div class="blob-beige">
-                        <img src="{{ url_for('static', filename='sakhi_ui/sakhi_phone_1772214459318.png') }}"
-                            alt="App UI" class="img-phone">
+                        <img src="{{ url_for('static', filename='sakhi_ui/hope_journal.jpg') }}" alt="Hope Journal"
+                            class="img-phone">
                     </div>
 
                     <div class="blob-white">
@@ -156,16 +344,51 @@
                     <!-- Badges -->
                     <div class="badge badge-delivery">
                         <div class="badge-icon"><i class="fa-solid fa-leaf"></i></div>
-                        grounding tools
+                        Grounding Tools
                     </div>
                     <div class="badge badge-coaching">
                         <div class="badge-icon"><i class="fa-solid fa-heart-pulse"></i></div>
-                        anxiety relief
+                        Anxiety Relief
+                    </div>
+                    <div class="badge badge-therapeutic">
+                        <div class="badge-icon"><i class="fa-solid fa-om"></i></div>
+                        Meditation
                     </div>
 
                 </div>
-            </div>
 
+                <div class="sound-card" style="width: 100%; margin-top: 80px; margin-bottom: 0;">
+                    <h3 style="font-family: 'DM Sans'; display: flex; align-items: center; gap: 8px; margin: 0;">
+                        🎧 Calm Sounds
+                    </h3>
+                    <p style="font-size: 14px; color: var(--text-light); margin-top: 8px; margin-bottom: 0;">
+                        Listen to calming nature sounds to relax your mind.
+                    </p>
+                    <div class="sound-grid">
+                        <button class="sound-btn" onclick="playCalmSound('meditation', this)">
+                            <i class="fa-solid fa-om"></i> Meditation
+                        </button>
+                        <button class="sound-btn" onclick="playCalmSound('ocean', this)">
+                            <i class="fa-solid fa-water"></i> Ocean
+                        </button>
+                        <button class="sound-btn" onclick="playCalmSound('birds', this)">
+                            <i class="fa-solid fa-dove"></i> Birds
+                        </button>
+                        <button class="sound-btn" onclick="playCalmSound('chill', this)">
+                            <i class="fa-solid fa-headphones"></i> Chill
+                        </button>
+                        <button class="sound-btn" onclick="playCalmSound('rain', this)">
+                            <i class="fa-solid fa-cloud-showers-heavy"></i> Rain
+                        </button>
+                        <button class="sound-btn" onclick="playCalmSound('Golden hour', this)">
+                            <i class="fa-solid fa-mountain-sun"></i> Golden hour
+                        </button>
+                    </div>
+                    <button id="stop-sound-btn" onclick="stopCalmSound()">
+                        <i class="fa-solid fa-stop"></i> Stop Sound
+                    </button>
+                </div>
+            </div>
         </div>
 
     </div>
@@ -195,13 +418,36 @@
                 style="width: 100%; margin-top: 10px; border-color: rgba(255,255,255,0.3); color: white; display: none;">Stop</button>
         </div>
 
-        <!-- Filler White Card -->
-        <div class="bottom-info-card">
-            <div class="logo" style="margin-bottom: auto; color: var(--text-dark);">
-                sakhi
-            </div>
-            <h2>Peace<br>begins<br>within.</h2>
+        <!-- Grounding Exercise Widget -->
+        <div class="grounding-widget">
+            <div class="widget-title">Grounding ✨</div>
+            <form class="grounding-list" id="grounding-form" onsubmit="submitGroundingActivity(event)">
+                <div class="sense-item">
+                    <label>👀 5 things you can see</label>
+                    <input type="text" id="ground-see" placeholder="I see...">
+                </div>
+                <div class="sense-item">
+                    <label>✋ 4 things you can touch</label>
+                    <input type="text" id="ground-touch" placeholder="I can touch...">
+                </div>
+                <div class="sense-item">
+                    <label>👂 3 things you can hear</label>
+                    <input type="text" id="ground-hear" placeholder="I hear...">
+                </div>
+                <div class="sense-item">
+                    <label>👃 2 things you can smell</label>
+                    <input type="text" id="ground-smell" placeholder="I smell...">
+                </div>
+                <div class="sense-item">
+                    <label>❤️ 1 thing you feel</label>
+                    <input type="text" id="ground-feel" placeholder="I feel...">
+                </div>
+                <button type="submit" class="btn-custom"
+                    style="margin-top: 10px; background: var(--sidebar-olive-dark); color: white; border: none; padding: 10px; border-radius: 8px; cursor: pointer; font-family: inherit; font-size: 14px; transition: opacity 0.2s;">Complete</button>
+            </form>
         </div>
+
+
 
     </div>
 
@@ -211,6 +457,36 @@
 {% block scripts %}
 <script src="{{ url_for('static', filename='js/canvas.js') }}"></script>
 <script>
+    async function submitGroundingActivity(event) {
+        event.preventDefault();
+
+        const seeValue = document.getElementById('ground-see').value;
+        const touchValue = document.getElementById('ground-touch').value;
+        const hearValue = document.getElementById('ground-hear').value;
+        const smellValue = document.getElementById('ground-smell').value;
+        const feelValue = document.getElementById('ground-feel').value;
+
+        const { data, error } = await window.supabaseClient
+            .from("grounding_activity")
+            .insert([
+                {
+                    see: seeValue,
+                    touch: touchValue,
+                    hear: hearValue,
+                    smell: smellValue,
+                    feel: feelValue
+                }
+            ]);
+
+        if (error) {
+            console.error("Error saving grounding activity:", error);
+            alert("Failed to save grounding activity. Please try again.");
+        } else {
+            alert('Grounding complete! Great job settling your mind.');
+            document.getElementById('grounding-form').reset();
+        }
+    }
+
     // Embedded Breathing Logic tailored for the new UI widget
     const circle = document.getElementById('breathing-circle');
     const instruction = document.getElementById('breath-instruction');
@@ -263,5 +539,42 @@
         circle.style.transform = 'scale(1)';
         circle.style.background = 'radial-gradient(circle, #f1d7bf 0%, var(--sidebar-olive-dark) 100%)';
     });
+
+    // Calm Sounds Logic
+    let currentCalmAudio = null;
+
+    function playCalmSound(soundName, btnElement) {
+        // Stop any currently playing audio
+        if (currentCalmAudio) {
+            currentCalmAudio.pause();
+            currentCalmAudio.currentTime = 0;
+        }
+
+        // Remove active class from all buttons
+        document.querySelectorAll('.sound-btn').forEach(btn => btn.classList.remove('active'));
+
+        // Play new audio
+        let extension = 'mp3';
+        if (soundName === 'birds' || soundName === 'rain') extension = 'wav';
+        currentCalmAudio = new Audio(`/sounds/${soundName}.${extension}`);
+        currentCalmAudio.loop = true;
+        currentCalmAudio.play();
+
+        // UI Updates
+        btnElement.classList.add('active');
+        document.getElementById('stop-sound-btn').style.display = 'block';
+    }
+
+    function stopCalmSound() {
+        if (currentCalmAudio) {
+            currentCalmAudio.pause();
+            currentCalmAudio.currentTime = 0;
+            currentCalmAudio = null;
+        }
+
+        // UI Updates
+        document.querySelectorAll('.sound-btn').forEach(btn => btn.classList.remove('active'));
+        document.getElementById('stop-sound-btn').style.display = 'none';
+    }
 </script>
 {% endblock %}
